@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Client</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        .game-container {
+            display: grid;
+            grid-template-columns: 70% 30%;
+            grid-template-rows: 70% 30%;
+            height: 100vh;
+            gap: 1px;
+            background: #333;
+        }
+        
+        .panel {
+            background: #222;
+            padding: 10px;
+            overflow: auto;
+        }
+        
+        .map-panel {
+            grid-column: 1;
+            grid-row: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .actions-panel {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        
+        .messages-panel {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        
+        .skeleton-panel {
+            grid-column: 2;
+            grid-row: 2;
+        }
+        
+        .map-canvas {
+            background: #000;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        
+        .messages-list {
+            height: 100%;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        
+        .message {
+            padding: 2px 0;
+            border-bottom: 1px solid #444;
+        }
+        
+        .actions-list {
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .action-item {
+            padding: 5px;
+            margin: 2px;
+            background: #333;
+            border-radius: 3px;
+        }
+        
+        .skeleton-info {
+            font-size: 14px;
+        }
+        
+        .skeleton-info div {
+            margin: 5px 0;
+        }
+        
+        .status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .connected {
+            background: #0a0;
+        }
+        
+        .disconnected {
+            background: #a00;
+        }
+        
+        .connection-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .connection-form.visible {
+            display: block;
+        }
+        
+        .control-hint {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="status" class="status disconnected">Не подключено</div>
+    
+    <div class="game-container" id="gameContainer" style="display: none;">
+        <div class="panel map-panel">
+            <canvas id="gameCanvas" class="map-canvas"></canvas>
+        </div>
+        
+        <div class="panel actions-panel">
+            <h3>Очередь действий</h3>
+            <div id="actionsList" class="actions-list"></div>
+        </div>
+        
+        <div class="panel messages-panel">
+            <h3>Сообщения</h3>
+            <div id="messagesList" class="messages-list"></div>
+        </div>
+        
+        <div class="panel skeleton-panel">
+            <h3>Скелетон</h3>
+            <div id="skeletonInfo" class="skeleton-info">
+                <div>Имя: <span id="skeletonName">-</span></div>
+                <div>Здоровье: <span id="skeletonHP">-</span></div>
+                <div>Атака: <span id="skeletonAttack">-</span></div>
+                <div>Координаты: <span id="skeletonCoords">-</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="connectionForm" class="connection-form">
+        <h3>Подключение к игре</h3>
+        <div>
+            <label>WebSocket URL:</label>
+            <input type="text" id="wsUrl" value="ws://localhost:5031/ws">
+        </div>
+        <div>
+            <label>Имя скелетона:</label>
+            <input type="text" id="skeletonNameInput" value="Classssssic">
+        </div>
+        <div>
+            <label>Здоровье:</label>
+            <input type="number" id="skeletonHP" value="10">
+        </div>
+        <div>
+            <label>Атака:</label>
+            <input type="number" id="skeletonAttack" value="3">
+        </div>
+        <button id="connectBtn">Подключиться</button>
+    </div>
+    
+    <div class="control-hint">
+        Управление: WASD - движение, UHJL - атака, другие клавиши - защита
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
