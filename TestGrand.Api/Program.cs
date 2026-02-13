@@ -36,6 +36,8 @@ builder.Services.AddSingleton<IRollerService, RollerService>();
 
 var app = builder.Build();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseWebSockets();
 
 app.Map("/ws", async context =>

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\TestGrand.Core\TestGrand.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Deploy\" />
+  </ItemGroup>
+
 </Project>

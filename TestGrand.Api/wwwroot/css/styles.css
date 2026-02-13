@@ -1,0 +1,281 @@
+/* ============================================================
+   Two Seconds RPG — Web Client Styles
+   Dark theme, 4-panel grid layout matching the console client
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: #0D0D0D;
+    color: #DDD;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ---- Connection Form (shown on start) ---- */
+
+#connectionForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 16px;
+}
+
+.form-title {
+    font-size: 32px;
+    color: #CC3333;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+}
+
+.form-subtitle {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 320px;
+}
+
+.form-group label {
+    font-size: 12px;
+    color: #999;
+}
+
+.form-group input {
+    background: #1A1A1A;
+    border: 1px solid #333;
+    color: #DDD;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #CC3333;
+}
+
+#connectBtn {
+    background: #CC3333;
+    color: #FFF;
+    border: none;
+    padding: 10px 32px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+}
+
+#connectBtn:hover {
+    background: #E04444;
+}
+
+/* ---- Game Container (4-panel grid) ---- */
+
+#gameContainer {
+    display: none;              /* shown after connect */
+    grid-template-columns: 1fr 280px;
+    grid-template-rows: auto 1fr 200px;
+    height: 100vh;
+    gap: 2px;
+    padding: 2px;
+    background: #1A1A1A;
+}
+
+/* ---- Panels ---- */
+
+.panel {
+    background: #111;
+    border: 1px solid #2A2A2A;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.panel-header {
+    background: #1A1A1A;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #888;
+    border-bottom: 1px solid #2A2A2A;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+.panel-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+/* ---- Map Panel (top-left) ---- */
+
+.map-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.map-panel .panel-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4px;
+}
+
+#gameCanvas {
+    image-rendering: pixelated;
+}
+
+/* ---- Status Bar ---- */
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: #0A0A0A;
+    border-bottom: 1px solid #2A2A2A;
+    font-size: 11px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #555;
+}
+
+.status-dot.connected {
+    background: #4CAF50;
+}
+
+.status-dot.disconnected {
+    background: #CC3333;
+}
+
+/* ---- Actions Queue Panel (top-right) ---- */
+
+.action-item {
+    padding: 4px 8px;
+    font-size: 13px;
+    color: #CCC;
+    border-bottom: 1px solid #1A1A1A;
+}
+
+.empty-hint {
+    color: #555;
+    font-size: 12px;
+    text-align: center;
+    padding: 16px;
+}
+
+/* ---- Messages Panel (bottom-left) ---- */
+
+.message-item {
+    font-size: 12px;
+    color: #AAA;
+    padding: 2px 0;
+    line-height: 1.4;
+}
+
+.msg-time {
+    color: #555;
+}
+
+/* ---- Skeleton Info Panel (bottom-right) ---- */
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #1A1A1A;
+    font-size: 13px;
+}
+
+.stat-label {
+    color: #888;
+}
+
+.stat-value {
+    color: #DDD;
+    font-weight: bold;
+}
+
+.stat-value.hp {
+    color: #4CAF50;
+}
+
+.stat-value.attack {
+    color: #CC3333;
+}
+
+/* ---- Controls Hint ---- */
+
+.controls-hint {
+    padding: 4px 8px;
+    font-size: 10px;
+    color: #555;
+    text-align: center;
+    border-top: 1px solid #1A1A1A;
+    flex-shrink: 0;
+}
+
+/* ---- Game Over Overlay ---- */
+
+#gameOverOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 100;
+}
+
+.game-over-text {
+    font-size: 48px;
+    color: #CC3333;
+    letter-spacing: 4px;
+}
+
+.game-over-sub {
+    color: #888;
+    font-size: 16px;
+}
+
+/* ---- Scrollbar ---- */
+
+.panel-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.panel-content::-webkit-scrollbar-track {
+    background: #111;
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 2px;
+}

@@ -43,16 +43,16 @@ public class MapService : IMapService
             Id = 1,
             Width = mapLayout[0].Length,
             Height = mapLayout.Length,
-            MapBlocks = new MapBlock[mapLayout.Length][]
+            MapBlocks = new MapBlock[mapLayout.Length, mapLayout[0].Length], // Изменено на [,]
+            MapBlockByGuids = new Dictionary<string, MapBlock>() // Не забудьте инициализировать словарь
         };
 
         for (int y = 0; y < map.Height; y++)
         {
-            map.MapBlocks[y] = new MapBlock[map.Width];
             for (int x = 0; x < map.Width; x++)
             {
                 char c = mapLayout[y][x];
-                var newBlock = new MapBlock();
+                MapBlock newBlock; // Убрал создание объекта в начале
 
                 switch (c)
                 {
@@ -81,7 +81,13 @@ public class MapService : IMapService
                         break;
                 }
 
-                map.MapBlocks[y][x] = newBlock;
+                map.MapBlocks[y, x] = newBlock; // Изменено с [y][x] на [y, x]
+                
+                // Добавляем блок в словарь по GUID (если нужно)
+                if (map.MapBlockByGuids != null)
+                {
+                    map.MapBlockByGuids[newBlock.BlockGuid.ToString()] = newBlock;
+                }
             }
         }
 
@@ -101,7 +107,7 @@ public class MapService : IMapService
 
     public void AddEntity(int x, int y, MapEntity entity)
     {
-        var block = _map.MapBlocks[x][y];
+        var block = _map.MapBlocks[x,y];
 
         if (block.IsPassable)
             block.Entities.Add(entity);
@@ -127,21 +133,24 @@ public class MapService : IMapService
 
     public MapBlock GetMapBlock(int x, int y)
     {
-        return _map.MapBlocks[y][x];
+        return _map.MapBlocks[x,y];
     }
 
     public void RemoveEntity(Guid guid)
     {
-        foreach (var blocksLine in _map.MapBlocks)
+        for (int y = 0; y < _map.Height; y++)
         {
-            foreach (var block in blocksLine)
+            for (int x = 0; x < _map.Width; x++)
             {
+                var block = _map.MapBlocks[x, y];
+
                 var entity = block.Entities.FirstOrDefault(x => x.Guid == guid);
 
-                if (entity == null)
-                    continue;
-
-                block.Entities.Remove(entity);
+                if (entity != null)
+                {
+                    block.Entities.Remove(entity);
+                    return;
+                }
             }
         }
     }
